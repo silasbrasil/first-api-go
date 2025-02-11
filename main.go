@@ -12,6 +12,9 @@ func main() {
 
 	r.GET("/books", controllers.ListBooks)
 	r.POST("/books", controllers.CreateBook)
+	r.GET("/books/:id", controllers.GetBookById)
+	r.PATCH("/books/:id", controllers.UpdateBook)
+	r.DELETE("/books/:id", controllers.DeleteBook)
 
 	models.ConnectDatabase()
 
