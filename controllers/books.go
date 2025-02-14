@@ -16,11 +16,6 @@ func ListBooks(c *gin.Context) {
 }
 
 func CreateBook(c *gin.Context) {
-	type CreateBookInput struct {
-		Title  string `json:"title" binding:"required"`
-		Author string `json:"author" binding:"required"`
-	}
-
 	var input CreateBookInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -46,11 +41,6 @@ func GetBookById(c *gin.Context) {
 }
 
 func UpdateBook(c *gin.Context) {
-	type UpdateBookInput struct {
-		Title  string `json:"title"`
-		Author string `json:"author"`
-	}
-
 	var book models.Book
 
 	if err := models.DB.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
