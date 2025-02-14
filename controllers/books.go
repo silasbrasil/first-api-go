@@ -10,7 +10,7 @@ import (
 func ListBooks(c *gin.Context) {
 	var books []models.Book
 
-	models.DB.Find(&books)
+	models.Client.Find(&books)
 
 	c.JSON(http.StatusOK, gin.H{"book": books})
 }
@@ -23,16 +23,16 @@ func CreateBook(c *gin.Context) {
 		return
 	}
 
-	book := models.Book{Title: input.Title, Author: input.Title}
-	models.DB.Create(&book)
+	book := models.Book{Title: input.Title, Author: input.Author}
+	models.Client.Create(&book)
 
-	c.JSON(http.StatusOK, gin.H{"data": book})
+	c.JSON(http.StatusCreated, book)
 }
 
 func GetBookById(c *gin.Context) {
 	var book models.Book
 
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
+	if err := models.Client.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
 		return
 	}
@@ -43,7 +43,7 @@ func GetBookById(c *gin.Context) {
 func UpdateBook(c *gin.Context) {
 	var book models.Book
 
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
+	if err := models.Client.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
 		return
 	}
@@ -55,7 +55,7 @@ func UpdateBook(c *gin.Context) {
 		return
 	}
 
-	models.DB.Model(&book).Updates(input)
+	models.Client.Model(&book).Updates(input)
 
 	c.JSON(http.StatusOK, gin.H{"data": book})
 }
@@ -63,12 +63,12 @@ func UpdateBook(c *gin.Context) {
 func DeleteBook(c *gin.Context) {
 	var book models.Book
 
-	if err := models.DB.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
+	if err := models.Client.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Book not found"})
 		return
 	}
 
-	models.DB.Delete(&book)
+	models.Client.Delete(&book)
 
 	c.JSON(http.StatusOK, gin.H{})
 }

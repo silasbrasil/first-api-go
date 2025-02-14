@@ -5,19 +5,18 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
+var Client *gorm.DB
 
-func ConnectDatabase() {
-	database, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+func ConnectDatabase(name string) {
+	var err error
+	Client, err = gorm.Open(sqlite.Open(name), &gorm.Config{})
 
 	if err != nil {
 		panic("Failed to connect to database")
 	}
 
-	err = database.AutoMigrate(&Book{})
+	err = Client.AutoMigrate(&Book{})
 	if err != nil {
-		return
+		panic(err.Error())
 	}
-
-	DB = database
 }
