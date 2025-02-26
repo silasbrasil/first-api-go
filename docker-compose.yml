@@ -1,0 +1,29 @@
+services:
+  api:
+    image: first-api-go
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    networks:
+      - net
+
+  database:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgres/data
+    networks:
+      - net
+
+networks:
+  net:
+    driver: bridge

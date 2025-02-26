@@ -42,16 +42,14 @@ func deleteBookRoute(r *gin.Engine) *gin.Engine {
 }
 
 func main() {
-	dbName := "database.db"
-	r := setupRouter()
+	models.ConnectDatabase()
 
+	r := setupRouter()
 	listBooksRoute(r)
 	createBookRoute(r)
 	getBookByIdRoute(r)
 	updateBookRoute(r)
 	deleteBookRoute(r)
-
-	models.ConnectDatabase(dbName)
 
 	r.Run()
 }

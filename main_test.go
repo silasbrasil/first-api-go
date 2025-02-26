@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"os/exec"
 	"strings"
 	"testing"
 
@@ -14,12 +13,6 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	dbName := "fake_database_test.db"
-
-	exec.Command("rm", "-f", dbName)
-
-	models.ConnectDatabase(dbName)
-
 	os.Exit(m.Run())
 }
 
